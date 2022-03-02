@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import Context from '../../store/Context';
+import styles from './Inputs.module.css';
 
 const Input = ({ placeholder }) => {
+  const { setTimecall } = useContext(Context);
+
+  const handleOnChange = ({ value }) => {
+    setTimecall(+value);
+  };
+
   return (
-    <div>
+    <div className={styles.divInput}>
+      <label htmlFor="time">Time</label>
       <input
         type="number"
-        className="form-control mr-sm-2"
+        className={`${styles.input} form-control mr-sm-2`}
         placeholder={placeholder}
         aria-label="Search"
+        min="0"
+        id="time"
+        required
+        onChange={(event) => handleOnChange(event.target)}
       />
     </div>
   );

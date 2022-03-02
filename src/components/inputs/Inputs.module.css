@@ -1,0 +1,29 @@
+@media only screen and (min-width: 768px) {
+  .input {
+    max-width: 160px;
+    min-width: 80px;
+    border: 1px solid rgb(4, 153, 153);
+    margin-left: 6px;
+  }
+  
+  .divInput {
+    margin: 2vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .input {
+    max-width: 160px;
+    min-width: 80px;
+    border: 1px solid rgb(4, 153, 153);
+  }
+  
+  .divInput {
+    display: block;
+    text-align: center;
+    margin: 2vh;
+  }
+}

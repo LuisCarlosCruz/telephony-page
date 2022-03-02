@@ -1,39 +1,39 @@
 import React, { useContext } from 'react';
 import Context from '../../store/Context';
 import PropTypes from 'prop-types';
-
-import DDD from '../../DDD.json';
+import { getCallPossible } from '../../services/api';
+import styles from './Inputs.module.css';
 
 const SelectOrigin = () => {
-  const { setOrigin, setDestination } = useContext(Context);
+  const { allDDD, setOrigin, setDestpossible, origin } = useContext(Context);
 
-  const handleOnChange = ({ value }) => {
-    const valueNum = +value;
-
-    setOrigin(valueNum);
-
-    const eleven = 11;
-
-    valueNum === eleven ? setDestination([16, 17, 18]) : setDestination([eleven]);
+  const handleOnChange = async ({ value }) => {
+    setOrigin(+value);
+    const callP = await getCallPossible(value);
+    const dest = callP.map((item) => item.destination_id_DDD);
+    const arr = [];
+    allDDD.forEach(({ id_DDD, code_DDD }) => {
+      return dest.map((item) => item === id_DDD && arr.push(code_DDD));
+    });
+    // setDestination(arr);
+    setDestpossible(['', ...arr]);
   };
 
   return (
-    <div>
-      <label htmlFor="origin">
-        Origin
-        <select
-          className="custom-select my-lg-0"
-          id="origin"
-          onChange={(e) => handleOnChange(e.target)}>
-          {/* <option disabled value></option> */}
-          {DDD &&
-            DDD.map(({ id_DDD, code_DDD }) => (
-              <option key={id_DDD} value={code_DDD}>
-                {code_DDD}
-              </option>
-            ))}
-        </select>
-      </label>
+    <div className={styles.divInput}>
+      <label htmlFor="origin">Origin</label>
+      <select
+        className={`${styles.input} custom-select my-lg-0`}
+        id="origin"
+        onChange={(e) => handleOnChange(e.target)}>
+        {!origin && <option defaultValue="selected">...</option>}
+        {allDDD &&
+          allDDD.map(({ id_DDD, code_DDD }) => (
+            <option key={id_DDD} value={code_DDD}>
+              {code_DDD}
+            </option>
+          ))}
+      </select>
     </div>
   );
 };
